@@ -37,6 +37,9 @@ if (!empty($s3fs_mounts)) {
 			echo "Making the local folder: $ondeck_app_directory/{$m['local_folder']}\n";
 			mkdir($m['local_folder'], 0775, TRUE);
 			shell_exec("chown webapp.webapp {$m['local_folder']}");
+			// is local folder a subdirectory? if so, chown -R it from the root. We assume it should be so chowned
+			$rootdir = preg_replace('/\/.*/', '', $m['local_folder']);
+			shell_exec("chown -R webapp.webapp {$rootdir}");
 		}
 		
 		/**
